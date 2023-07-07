@@ -10,7 +10,9 @@ import { ConfigModule } from '@nestjs/config';
 @Module({
   imports: [
     ConfigModule.forRoot(),
-    MongooseModule.forRoot(process.env.MONGODB_URI),
+    MongooseModule.forRootAsync({
+      useFactory: () => ({ uri: process.env.MONGODB_URI }),
+    }),
     MongooseModule.forFeature([{ name: 'Student', schema: StudentSchema }]),
   ],
   controllers: [AppController, StudentController],
