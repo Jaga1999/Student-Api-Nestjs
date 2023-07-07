@@ -7,10 +7,12 @@ import { UpdateStudentDto } from 'src/dto/update-student.dto';
 @Injectable()
 export class StudentService {
   constructor(@InjectModel('Student') private studentModel: Model<IStudent>) {}
+
   async createStudent(createStudentDto: CreateStudentDto): Promise<IStudent> {
     const newStudent = await new this.studentModel(createStudentDto);
     return newStudent.save();
   }
+
   async updateStudent(
     studentId: string,
     updateStudentDto: UpdateStudentDto,
@@ -25,6 +27,7 @@ export class StudentService {
     }
     return existingStudent;
   }
+
   async getAllStudents(): Promise<IStudent[]> {
     const studentData = await this.studentModel.find();
     if (!studentData || studentData.length == 0) {
@@ -32,6 +35,7 @@ export class StudentService {
     }
     return studentData;
   }
+
   async getStudent(studentId: string): Promise<IStudent> {
     const existingStudent = await this.studentModel.findById(studentId).exec();
     if (!existingStudent) {
@@ -39,6 +43,7 @@ export class StudentService {
     }
     return existingStudent;
   }
+
   async deleteStudent(studentId: string): Promise<IStudent> {
     const deletedStudent = await this.studentModel.findByIdAndDelete(studentId);
     if (!deletedStudent) {
